@@ -1,5 +1,8 @@
 package ru.practicum.android.diploma.favorites.ui
 
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -8,6 +11,8 @@ import ru.practicum.android.diploma.vacancy.domain.models.Contacts
 import ru.practicum.android.diploma.vacancy.domain.models.VacancyDetails
 
 class FavoritesViewModelImpl(val interactor: FavoritesInteractor) : FavoritesViewModel() {
+    private val _state = MutableStateFlow<FavoritesViewState>(FavoritesViewState.Empty)
+    override var state: StateFlow<FavoritesViewState> = _state.asStateFlow()
     init {
         // TODO
         // удалить после реализации FavoritesViewModelImpl
