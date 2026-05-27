@@ -17,7 +17,6 @@
 /.idea/runConfigurations.xml
 /.idea/
 /.idea/deviceManager.xml
-/app/schemas/
 
 # Gradle files
 .gradle/
