@@ -1,5 +1,7 @@
 <resources>
     <string name="search_placeholder">Введите запрос</string>
+    <string name="search_placeholder_industry">Введите отрасль</string>
+    <string name="search_placeholder_sum">Введите сумму</string>
     <string name="search_error_internet">Нет интернета</string>
     <string name="search_error_not_found">Не удалось получить\nсписок вакансий</string>
     <plurals name="search_chip_found">
@@ -9,4 +11,6 @@
         <item quantity="many">Найдено %d вакансий</item>
         <item quantity="other">Найдено %d вакансий</item>
     </plurals>
+    <string name="search_toast_error_internet">Проверьте подключение\n к интернету</string>
+    <string name="search_toast_error">Произошла ошибка</string>
 </resources>

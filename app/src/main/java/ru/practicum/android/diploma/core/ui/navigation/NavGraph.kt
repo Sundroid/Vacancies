@@ -8,6 +8,7 @@ import androidx.navigation.toRoute
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.area.ui.AreaScreen
+import ru.practicum.android.diploma.core.domain.models.Area
 import ru.practicum.android.diploma.country.ui.CountryScreen
 import ru.practicum.android.diploma.favorites.ui.FavoritesScreen
 import ru.practicum.android.diploma.filter.ui.FilterScreen
@@ -37,8 +38,8 @@ fun NavGraph(navController: NavHostController) {
                 onNavigateToArea = {
                     navController.navigate(Screen.Area)
                 },
-                onNavigateToIndustry = {
-                    navController.navigate(Screen.Industry)
+                onNavigateToIndustry = { industryId ->
+                    navController.navigate(Screen.Industry(industryId))
                 },
                 onBack = {
                     navController.popBackStack()
@@ -57,9 +58,10 @@ fun NavGraph(navController: NavHostController) {
 
         composable<Screen.Area> {
             AreaScreen(
+                navController.currentBackStackEntry,
                 koinViewModel(),
-                onNavigateToRegion = {
-                    navController.navigate(Screen.Region)
+                onNavigateToRegion = { countryId ->
+                    navController.navigate(Screen.Region(countryId))
                 },
                 onNavigateToCountry = {
                     navController.navigate(Screen.Country)
@@ -73,24 +75,33 @@ fun NavGraph(navController: NavHostController) {
         composable<Screen.Country> {
             CountryScreen(
                 koinViewModel(),
-                onBack = {
+                onBack = { country ->
+                    navController.previousBackStackEntry?.savedStateHandle?.set("country", country)
                     navController.popBackStack()
                 }
             )
         }
 
-        composable<Screen.Region> {
+        composable<Screen.Region> { backStackEntry ->
+            val countryId = backStackEntry.arguments?.getString("countryId")
             RegionScreen(
-                koinViewModel(),
+                koinViewModel { parametersOf(countryId) },
+                onSelect = { region, country ->
+                    navController.previousBackStackEntry?.savedStateHandle?.set("region", region)
+                    navController.previousBackStackEntry?.savedStateHandle?.set("region_country", country)
+                    navController.popBackStack()
+                },
                 onBack = {
                     navController.popBackStack()
                 }
             )
         }
 
-        composable<Screen.Industry> {
+        composable<Screen.Industry> { backStackEntry ->
+            val industryId = backStackEntry.arguments?.getString("industryId")
             IndustryScreen(
                 koinViewModel(),
+                industryId = industryId,
                 onBack = {
                     navController.popBackStack()
                 }
@@ -110,4 +121,5 @@ fun NavGraph(navController: NavHostController) {
             TeamScreen()
         }
     }
+
 }
