@@ -67,7 +67,7 @@ class SearchViewModelImpl(
                     filters.industry != null ||
                     filters.onlyWithSalary
 
-                if (query.isEmpty() && !_isFiltered.value) {
+                if (query.isEmpty()) {
                     _state.value = SearchScreenState.Initial
                     null
                 } else {
